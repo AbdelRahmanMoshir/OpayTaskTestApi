@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -19,17 +17,17 @@ namespace OpayTaskTestApi.Controllers
     public class ClientOrderController : ControllerBase
     {
         [HttpPost]
-        public Task<opay_request> PostJsonAsync(opay_request postParameters)
+        public Task<opay_request> CreateRequestAsync(opay_request requestData)
         {
-            string uri = "https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create";
+            string url = "https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create";
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "OPAYPUB16388855997950.39843277853359504");
 
-            string postData = JsonConvert.SerializeObject(postParameters);
+            string postData = JsonConvert.SerializeObject(requestData);
             byte[] bytes = Encoding.UTF8.GetBytes(postData);
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.Method = "POST";
             httpWebRequest.ContentLength = bytes.Length;
             httpWebRequest.ContentType = "text/json";
